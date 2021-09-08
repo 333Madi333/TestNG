@@ -42,6 +42,4 @@ public class HomeWorkTestData {
         Assert.assertTrue(driver.findElement(By.id("submit-btn")).isEnabled());
 
     }
-
-
 }

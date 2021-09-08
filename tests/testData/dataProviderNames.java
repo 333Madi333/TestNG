@@ -1,9 +1,7 @@
 package testData;
-
 import org.testng.annotations.DataProvider;
 
 public class dataProviderNames {
-
     @DataProvider(name = "userInfo")
     public static Object [][] userInfo() {
         Object[][] data = new Object[7][5];

@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
@@ -10,6 +11,7 @@ import org.testng.annotations.Test;
 import testData.dataProvider;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 
 public class SeleniumTests {
@@ -72,6 +74,33 @@ public class SeleniumTests {
 
         Assert.assertEquals(driver.findElement(By.xpath("//*[@class='title']")).getText(), "PRODUCTS");
 
+    }
+
+    @Test(testName = "Register New User", dataProviderClass = dataProvider.class, dataProvider = "userInfo")
+    public void test5(String firstName, String lastName, String phoneNumber, String email, String role, String expected){
+        driver.get("http://automation.techleadacademy.io/#/usermgt");
+
+        List<WebElement> allTrPre = driver.findElements(By.xpath("//tr"));
+
+        driver.findElement(By.id("Firstname")).sendKeys(firstName);
+        driver.findElement(By.id("Lastname")).sendKeys(lastName);
+        driver.findElement(By.id("Phonenumber")).sendKeys(phoneNumber);
+        driver.findElement(By.id("Email")).sendKeys(email);
+
+        Select select = new Select(driver.findElement(By.id("Select-role")));
+        select.selectByVisibleText(role);
+
+        driver.findElement(By.id("submit-btn")).click();
+
+        List<WebElement> allTrPost = driver.findElements(By.xpath("//tr"));
+
+        System.out.println("Pre: " + allTrPre.size() + " | Post: " + allTrPost.size());
+
+        if(expected.equals("pass")) {
+            Assert.assertTrue(allTrPost.size() == allTrPre.size() + 1);
+        }else if(expected.equals("fail")){
+            Assert.assertTrue(allTrPost.size() == allTrPre.size());
+        }
     }
 
 }
